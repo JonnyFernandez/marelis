@@ -10,10 +10,6 @@ const NavBar = () => {
     const exit = async () => {
         logout()
     }
-
-
-
-
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
@@ -35,7 +31,7 @@ const NavBar = () => {
                         <li className="nav-item">
                             <NavLink className="nav-link active" aria-current="page" to='/'>Inicio</NavLink>
                         </li>
-                        <li className="nav-item dropdown">
+                        {user.type === 'admin' ? <li className="nav-item dropdown">
                             <a
                                 className="nav-link dropdown-toggle"
                                 href="#"
@@ -47,29 +43,27 @@ const NavBar = () => {
                             </a>
                             <ul className="dropdown-menu">
                                 <li className="nav-item">
-                                    <NavLink className="dropdown-item" to='/'>Calculadora</NavLink>
+                                    <NavLink className="dropdown-item" to='/calculator'>Calculadora</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink className="dropdown-item" to='/'>Presupuesto</NavLink>
+                                    <NavLink className="dropdown-item" to='/butget'>Presupuesto</NavLink>
+                                </li>
+
+                                <li>
+                                    <NavLink className="dropdown-item" to={'/prod'}>Gestion de Producto</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink className="dropdown-item" to={'/'}>Venta Local</NavLink>
+                                    <NavLink className="dropdown-item" to={'/sales-report'}>Reporte de ventas</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink className="dropdown-item" to={'/'}>Gestion de Producto</NavLink>
+                                    <NavLink className="dropdown-item" to={'/stock-report'}>Reporte de Stock</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink className="dropdown-item" to={'/'}>Reporte de ventas</NavLink>
-                                </li>
-                                <li>
-                                    <NavLink className="dropdown-item" to={'/'}>Estadisticas</NavLink>
-                                </li>
-                                <li>
-                                    <NavLink className="dropdown-item" to={'/'}>Reporte de Stock</NavLink>
+                                    <NavLink className="dropdown-item" to={'/statistics-report'}>Estadisticas</NavLink>
                                 </li>
 
                             </ul>
-                        </li>
+                        </li> : ''}
 
                         <li className="nav-item dropdown">
                             <a
@@ -79,7 +73,7 @@ const NavBar = () => {
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             >
-                                Usuario
+                                {user.name ? user.name.toUpperCase() : Usuario}
                             </a>
                             <ul className="dropdown-menu">
 

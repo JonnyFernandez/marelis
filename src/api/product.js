@@ -1,5 +1,6 @@
 import axios from './axios';
 
+// ----------------product---------------------------
 
 export const postProdrRequest = async (data) => {
     const defaultImage = 'https://e0.pxfuel.com/wallpapers/806/472/desktop-wallpaper-blank-white-bright-white.jpg'
@@ -55,8 +56,16 @@ export const api_toggle_distributor_status = async (id) => await axios.put(`/dis
 export const api_update_distributor_numbers = async (id, data) => await axios.put(`/distributor/${id}`, data);
 export const api_get_all_distributors = async () => await axios(`/distributor/`);
 export const api_post_distributor = async (data) => await axios.post(`/distributor/`, data);
-// ----------------categoria---------------------------
 
+// ----------------categoria---------------------------
 export const api_create_category = async (data) => await axios.post(`/category/`, data);
 export const api_get_all_categories = async () => await axios(`/category/`);
 export const api_delete_category = async (id) => await axios.delete(`/category/${id}`);
+
+
+// ----------------Orders---------------------------
+export const api_create_order = async (data) => await axios.post(`/order/`, data);
+export const api_get_order = async () => await axios.get(`/order/`);
+export const api_order_by_id = async (id) => await axios.get(`/order/${id}`);
+export const api_order_cancel = async (id) => await axios.put(`/order/${id}`);
+export const api_order_delete = async (id) => await axios.delete(`/order/${id}`);

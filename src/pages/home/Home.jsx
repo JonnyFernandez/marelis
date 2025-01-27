@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from "react";
-
+import Swal from "sweetalert2";
 import x from "./Home.module.css";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
 import { useProd } from "../../context/ProdContext";
 import { useAuth } from "../../context/AuthContext";
 
 
 const Home = () => {
-    const { allProduct, prod } = useProd()
+    const { allProduct, prod, createOrder, errors: OrderErrors } = useProd()
     const { user } = useAuth()
 
     const currentDate = new Date();
-    const navigate = useNavigate()
+    // Aquí está el useEffect para manejar errores de pedido (OrderErrors)
+    useEffect(() => {
+        if (OrderErrors && OrderErrors.length > 0) {
+            Swal.fire({
+                icon: "error",
+                title: "Error en el pedido",
+                text: OrderErrors.join(", "), // Muestra los errores concatenados
+                footer: "Por favor, verifica la información del pedido.",
+            });
+        }
+    }, [OrderErrors]); // Ejecuta el efecto solo cuando OrderErrors cambie
 
 
     const products = prod || [];
@@ -57,12 +66,12 @@ const Home = () => {
 
             } catch (error) {
                 console.error("Error fetching products:", error);
-                // Swal.fire({
-                //     icon: "error",
-                //     title: "Error de conexión",
-                //     text: "Servidor desconectado. Por favor, contacta al soporte técnico.",
-                //     footer: 'soporte técnico "arcancode@gmail.com"',
-                // });
+                Swal.fire({
+                    icon: "error",
+                    title: "Error de conexión",
+                    text: "Servidor desconectado. Por favor, contacta al soporte técnico.",
+                    footer: 'soporte técnico "arcancode@gmail.com"',
+                });
                 localStorage.removeItem('user');
 
                 // Eliminar cookies relacionadas con la sesión
@@ -321,14 +330,47 @@ const Home = () => {
 
 
 
-    const sendOrder = async () => {
-        // Muestra un SweetAlert de confirmación
-        // await api_create_order(data);
-        alert("creando orden:", data)
-        console.log(data);
+    const sendOrder = () => {
+        Swal.fire({
+            title: "¿Confirmar pedido?",
+            text: "¿Estás seguro de que deseas finalizar este pedido? Esta acción no se puede deshacer.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, confirmar",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Crear el pedido
+                createOrder(data);
 
+                // Vaciar el carrito
+                setCart({
+                    discount: 0,
+                    total_without_discount: 0,
+                    total_with_discount: 0,
+                    paymentMethod: "",
+                    payment_with: 0,
+                    res_payment: 0,
+                    user: "username123",
+                    products: [],
+                });
 
+                // Mostrar mensaje de éxito
+                Swal.fire(
+                    "Pedido Confirmado",
+                    "El pedido se ha enviado correctamente y el carrito ha sido vaciado.",
+                    "success"
+                );
+            }
+        });
     };
+
+
+
+
+
 
     return (
         <div className={x.container}>
@@ -336,6 +378,9 @@ const Home = () => {
                 <h1>Sistema de Cobro</h1>
                 <span>{moment(currentDate).format("DD/MM/YYYY")}</span>
             </div>
+            {
+                OrderErrors?.length >= 1 ? OrderErrors?.map((item, i) => <div key={i} className=''>{item}</div>) : ''
+            }
 
             <div className={x.inputContainer}>
                 <input
