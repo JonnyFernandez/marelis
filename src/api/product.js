@@ -69,3 +69,9 @@ export const api_get_order = async () => await axios.get(`/order/`);
 export const api_order_by_id = async (id) => await axios.get(`/order/${id}`);
 export const api_order_cancel = async (id) => await axios.put(`/order/${id}`);
 export const api_order_delete = async (id) => await axios.delete(`/order/${id}`);
+
+// ----------------reporte de stock---------------------------
+export const api_stock_report = async () => await axios.get(`/stock-report`);
+
+// ---------------------------- stadistica ---------------------------------
+export const api_statistic = async (date1, date2) => await axios.get(`/sales-report?startDate=${date1}&endDate=${date2}`);

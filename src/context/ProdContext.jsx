@@ -1,7 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 
 // import { registerRequest, loginRequest, verifyTokenRequest, logoutRequest, toggleStatusRequest, deleteUserRequest } from "../api/auth";
-import { postProdrRequest, prodDetailsRequest, prodDeleteRequest, updateProdRequest, prodEditRequest, prodFeaturedsRequest, prodUpdateStockRequest, ProdRequest, api_delete_distributor, api_toggle_distributor_status, api_update_distributor_numbers, api_get_all_distributors, api_post_distributor, api_create_category, api_get_all_categories, api_delete_category, api_create_order, api_get_order, api_order_by_id, api_order_cancel, api_order_delete } from "../api/product";
+import { postProdrRequest, prodDetailsRequest, prodDeleteRequest, updateProdRequest, prodEditRequest, prodFeaturedsRequest, prodUpdateStockRequest, ProdRequest, api_delete_distributor, api_toggle_distributor_status, api_update_distributor_numbers, api_get_all_distributors, api_post_distributor, api_create_category, api_get_all_categories, api_delete_category, api_create_order, api_get_order, api_order_by_id, api_order_cancel, api_order_delete, api_stock_report, api_statistic } from "../api/product";
 
 
 
@@ -10,8 +10,12 @@ export const ProdContext = createContext({}); // Cambiado a ProdContext
 const ProdProvider = ({ children }) => {
     const [prod, setProd] = useState(null);
     const [orders, setOrders] = useState([]);
+    const [stockReport, setStockReport] = useState([]);
+    const [statistics, setStatistic] = useState(null);
     const [orderDetail, setOrderDetail] = useState({});
     const [errors, setErrors] = useState([]);
+    // console.log(stockReport);
+
 
 
 
@@ -97,6 +101,28 @@ const ProdProvider = ({ children }) => {
     const deleteOrder = async (id) => {
         await api_order_delete(id)
     }
+    const getStockReport = async () => {
+        try {
+            const stock = await api_stock_report();
+            setStockReport(stock.data)
+        } catch (error) {
+            if (Array.isArray(error.response.data)) {
+                return setErrors(error.response.data);
+            }
+            setErrors([error.response.data.message]);
+        }
+    };
+    const getStatistic = async (date1, date2) => {
+        try {
+            const statistic = await api_statistic(date1, date2);
+            setStatistic(statistic.data)
+        } catch (error) {
+            if (Array.isArray(error.response.data)) {
+                return setErrors(error.response.data);
+            }
+            setErrors([error.response.data.message]);
+        }
+    };
 
     useEffect(() => {
         if (errors.length > 0) {
@@ -110,7 +136,7 @@ const ProdProvider = ({ children }) => {
 
 
     return (
-        <ProdContext.Provider value={{ allProduct, prod, createProd, prodById, createOrder, errors, getOrders, orders, getOrdersById, orderDetail, cancelOrder, deleteOrder }}>
+        <ProdContext.Provider value={{ allProduct, prod, createProd, prodById, createOrder, errors, getOrders, orders, getOrdersById, orderDetail, cancelOrder, deleteOrder, getStockReport, stockReport, getStatistic, statistics }}>
             {children}
         </ProdContext.Provider>
     );

@@ -49,9 +49,7 @@ const NavBar = () => {
                                     <NavLink className="dropdown-item" to='/butget'>Presupuesto</NavLink>
                                 </li>
 
-                                <li>
-                                    <NavLink className="dropdown-item" to={'/prod'}>Gestion de Producto</NavLink>
-                                </li>
+
                                 <li>
                                     <NavLink className="dropdown-item" to={'/sales-report'}>Reporte de ventas</NavLink>
                                 </li>
@@ -61,9 +59,42 @@ const NavBar = () => {
                                 <li>
                                     <NavLink className="dropdown-item" to={'/statistics-report'}>Estadisticas</NavLink>
                                 </li>
+                                <li>
+                                    <NavLink className="dropdown-item" to={'/statistics-report'}>Catalogo</NavLink>
+                                </li>
 
                             </ul>
                         </li> : ''}
+
+                        <li className="nav-item dropdown">
+                            <a
+                                className="nav-link dropdown-toggle"
+                                href="#"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                Gestion de Productos
+                            </a>
+                            <ul className="dropdown-menu">
+
+                                <li>
+                                    <NavLink className="dropdown-item" to={'/prod'}>Ingresar Producto</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="dropdown-item" to={'#'}>Categorias y Distibuidores</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="dropdown-item" to={'#'}>Actualizar Stock</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="dropdown-item" to={'#'}>Catalogo</NavLink>
+                                </li>
+
+
+
+                            </ul>
+                        </li>
 
                         <li className="nav-item dropdown">
                             <a
