@@ -1,0 +1,198 @@
+/* Contenedor principal */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+/* Título */
+.title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+/* Card principal */
+.card {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card p {
+    font-size: 1rem;
+    color: #555;
+    margin: 8px 0;
+}
+
+/* Botones de acción */
+.updateOrders {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.cancelOrders,
+.deleteOrders,
+.exportPDF {
+    flex: 1 1 30%; /* Adapta el tamaño según el espacio disponible */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.cancelOrders {
+    background-color: #ffcc00;
+}
+
+.deleteOrders {
+    background-color: #ff4d4d;
+}
+
+.exportPDF {
+    background-color: #4caf50;
+}
+
+.cancelOrders:hover {
+    background-color: #e6b800;
+}
+
+.deleteOrders:hover {
+    background-color: #e60000;
+}
+
+.exportPDF:hover {
+    background-color: #45a049;
+}
+
+/* Subtítulo */
+.subtitle {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Contenedor de productos */
+.productsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Se adapta dinámicamente */
+    gap: 20px;
+}
+
+/* Tarjetas de producto */
+.productCard {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.productCard p {
+    font-size: 0.95rem;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* Mensajes */
+.notFound, .noProducts {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #999;
+    margin-top: 20px;
+}
+
+/* Encabezado con detalles */
+.headerDetails {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    flex: 1;
+}
+
+/* Enlace de retorno */
+.back {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    color: #007bff;
+    background-color: #eaf4ff;
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.back:hover {
+    background-color: #007bff;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+    text-decoration: none;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .title {
+        font-size: 1.6rem;
+    }
+
+    .updateOrders {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .cancelOrders,
+    .deleteOrders,
+    .exportPDF {
+        flex: 1; /* Toma el 100% del ancho */
+        text-align: center;
+    }
+
+    .headerDetails {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .productsContainer {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .subtitle {
+        font-size: 1.3rem;
+    }
+
+    .back {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}

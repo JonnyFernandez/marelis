@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useAuth } from '../../context/AuthContext';
 import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import LoginStyle from '../login/Login.module.css'
 
 const Register = () => {
     const navigate = useNavigate();
@@ -25,20 +26,20 @@ const Register = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <div className="bg-white p-8 shadow-md rounded-md max-w-md w-full">
+        <div className={LoginStyle.login}>
+            <div className={LoginStyle.loginContainer}>
                 {/* Mensajes de error de registro */}
                 {registerErrors?.length > 0 && (
                     <div className="mb-4">
                         {registerErrors.map((error, i) => (
-                            <div key={i} className="text-red-500 text-sm">{error}</div>
+                            <div key={i} className={LoginStyle.errorLogin}>{error}</div>
                         ))}
                     </div>
                 )}
 
-                <h1 className="text-3xl font-bold text-center mb-6">Register</h1>
+                <h1 className={LoginStyle.titleLogin}>Register</h1>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <form onSubmit={handleSubmit(onSubmit)} className={LoginStyle.loginForm}>
                     {/* Campo de Nombre */}
                     <div>
                         <input
@@ -87,14 +88,14 @@ const Register = () => {
                     </div>
 
                     {/* Botón de registro */}
-                    <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    <button type="submit" className={LoginStyle.submitButon}>
                         Register
                     </button>
                 </form>
 
-                <p className="text-center mt-4">
+                <p className={LoginStyle.recomendation}>
                     Already have an account?{' '}
-                    <Link className="text-blue-500 hover:underline" to="/login">
+                    <Link className="" to="/login">
                         Login
                     </Link>
                 </p>

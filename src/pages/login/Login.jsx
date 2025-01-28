@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useAuth } from '../../context/AuthContext';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
+import LoginStyle from './Login.module.css'
 
 const Login = () => {
 
@@ -24,13 +25,13 @@ const Login = () => {
 
     };
     return (
-        <div className='' >
-            <div className=''>
+        <div className={LoginStyle.login} >
+            <div className={LoginStyle.loginContainer}>
                 {
-                    signinErrors?.length >= 1 ? signinErrors?.map((item, i) => <div key={i} className=''>{item}</div>) : ''
+                    signinErrors?.length >= 1 ? signinErrors?.map((item, i) => <div key={i} className={LoginStyle.errorLogin}>{item}</div>) : ''
                 }
-                <h1 className=''>Login</h1>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <h1 className={LoginStyle.titleLogin}>Login</h1>
+                <form onSubmit={handleSubmit(onSubmit)} className={LoginStyle.loginForm} >
                     <input
                         type='email'
                         {...register('email', { required: true })}
@@ -47,9 +48,9 @@ const Login = () => {
                     {errors.password && <p className=''>password is required</p>}
 
 
-                    <button type='submit' className=''>Login</button>
+                    <button type='submit' className={LoginStyle.submitButon}>Login</button>
                 </form>
-                <p className=''>Don´t have acount? <Link className='' to={'/register'}>Sign up</Link> </p>
+                <p className={LoginStyle.recomendation}>Don´t have acount? <Link className='' to={'/register'}>Sign up</Link> </p>
             </div>
 
         </div>
