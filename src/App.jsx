@@ -2,7 +2,7 @@
 import AuthProvider from './context/AuthContext'
 // import './App.css'
 import ProdProvider from './context/ProdContext'
-import { Register, Login, Home, Calculator, Butget, ProductManagement, SalesReport, StockReport, Statistics, OrderDetail } from './pages/index'
+import { Register, Login, Home, Calculator, Butget, SalesReport, StockReport, Statistics, OrderDetail, AddProduct } from './pages/index'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import ProtectedRoute from "./ProtectedRoutes"
 import { NavBar } from './components'
@@ -27,7 +27,7 @@ function App() {
 
                 <Route path="/calculator" element={<Calculator />} />
                 <Route path="/butget" element={<Butget />} />
-                <Route path="/prod" element={<ProductManagement />} />
+                <Route path="/prod" element={<AddProduct />} />
                 <Route path="/sales-report" element={<SalesReport />} />
                 <Route path="/stock-report" element={<StockReport />} />
                 <Route path="/statistics-report" element={<Statistics />} />
