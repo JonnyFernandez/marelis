@@ -12,14 +12,11 @@ const ProdProvider = ({ children }) => {
     const [orders, setOrders] = useState([]);
     const [stockReport, setStockReport] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [distributors, setDistributors] = useState([]);
     const [statistics, setStatistic] = useState(null);
     const [orderDetail, setOrderDetail] = useState({});
     const [errors, setErrors] = useState([]);
-
-
-
-
-
+    console.log(errors);
 
 
     const allProduct = async () => {
@@ -180,6 +177,68 @@ const ProdProvider = ({ children }) => {
         }
     }
 
+    // --------------Distributors--------------
+    const add_distributor = async (data) => {
+        try {
+            await api_post_distributor(data);
+
+        } catch (error) {
+            if (Array.isArray(error.response?.data)) {
+                setErrors(error.response.data);
+            } else {
+                setErrors([error.response?.data?.message || "Unexpected error occurred"]);
+            }
+        }
+    }
+    const get_distributor = async () => {
+        try {
+            const aux = await api_get_all_distributors();
+            setDistributors(aux.data)
+        } catch (error) {
+            if (Array.isArray(error.response?.data)) {
+                setErrors(error.response.data);
+            } else {
+                setErrors([error.response?.data?.message || "Unexpected error occurred"]);
+            }
+        }
+    }
+    const add_distributor_number = async (id, phoneNumber) => {
+        try {
+            await api_update_distributor_numbers(id, phoneNumber);
+
+        } catch (error) {
+            if (Array.isArray(error.response?.data)) {
+                setErrors(error.response.data);
+            } else {
+                setErrors([error.response?.data?.message || "Unexpected error occurred"]);
+            }
+        }
+    }
+    const toggle_distributor_status = async (id) => {
+        try {
+            await api_toggle_distributor_status(id);
+
+        } catch (error) {
+            if (Array.isArray(error.response?.data)) {
+                setErrors(error.response.data);
+            } else {
+                setErrors([error.response?.data?.message || "Unexpected error occurred"]);
+            }
+        }
+    }
+    const delete_distributor = async (id) => {
+        try {
+            await api_delete_distributor(id);
+
+        } catch (error) {
+            if (Array.isArray(error.response?.data)) {
+                setErrors(error.response.data);
+            } else {
+                setErrors([error.response?.data?.message || "Unexpected error occurred"]);
+            }
+        }
+    }
+
     useEffect(() => {
         if (errors.length > 0) {
             const timer = setTimeout(() => {
@@ -192,7 +251,7 @@ const ProdProvider = ({ children }) => {
 
 
     return (
-        <ProdContext.Provider value={{ allProduct, prod, createProd, prodById, createOrder, errors, getOrders, orders, getOrdersById, orderDetail, cancelOrder, deleteOrder, getStockReport, stockReport, getStatistic, statistics, getCategory, categories, createCategory, deleteCategory, updateCostMasiveCategory }}>
+        <ProdContext.Provider value={{ allProduct, prod, createProd, prodById, createOrder, errors, getOrders, orders, getOrdersById, orderDetail, cancelOrder, deleteOrder, getStockReport, stockReport, getStatistic, statistics, getCategory, categories, createCategory, deleteCategory, updateCostMasiveCategory, add_distributor, get_distributor, add_distributor_number, toggle_distributor_status, delete_distributor, distributors }}>
             {children}
         </ProdContext.Provider>
     );

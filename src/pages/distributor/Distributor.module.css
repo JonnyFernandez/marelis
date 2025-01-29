@@ -1,0 +1,176 @@
+/* Estilos principales del contenedor */
+.distributor {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* Contenedor general del formulario */
+.distributorContainer {
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.inputsContainerDistributor {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Estilos para las filas y columnas */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.columnDistributor {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Etiquetas del formulario */
+.label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Estilos de los campos de entrada */
+input[type="text"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Botón principal */
+button {
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button[type="button"] {
+    margin-left: 5px;
+    background-color: #28a745;
+}
+
+button[type="button"]:hover {
+    background-color: #218838;
+}
+
+/* Lista de números de teléfono */
+.phoneInputContainer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.phoneNumbersList {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 400px;
+}
+
+.phoneNumbersList li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.phoneNumbersList li:last-child {
+    border-bottom: none;
+}
+
+.phoneNumberItem button {
+    background-color: #dc3545;
+    font-size: 12px;
+    padding: 5px 10px;
+    margin-left: 10px;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.phoneNumberItem button:hover {
+    background-color: #c82333;
+}
+
+/* Lista de distribuidores */
+.distributorsList {
+    margin-top: 20px;
+}
+
+/* Contenedor principal de un distribuidor */
+.distributorItem {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Distribuidores pausados */
+.distributorItem.paused {
+    background-color: #f8f9fa; /* Fondo gris claro */
+    color: #6c757d; /* Texto gris */
+    border-color: #ced4da; /* Borde gris */
+    opacity: 0.7; /* Hacerlo más opaco */
+}
+
+/* Botones dentro de distribuidores pausados */
+.distributorItem.paused button {
+    background-color: #adb5bd; /* Botones grises */
+    color: #fff;
+    cursor: not-allowed; /* Cursor de no permitido */
+}
+
+.distributorItem.paused button:hover {
+    background-color: #6c757d; /* Oscurecer el gris al pasar el mouse */
+}

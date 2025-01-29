@@ -9,5 +9,6 @@ import Statistics from "./statistics/Statistics";
 import OrderDetail from "./orderDetails/OrderDetail";
 import AddProduct from "./addProduct/AddProduct";
 import Category from "./category/Category";
+import Distributor from "./distributor/Distributor";
 
-export { Register, Login, Home, Calculator, Butget, AddProduct, SalesReport, StockReport, Statistics, OrderDetail, Category }
+export { Register, Login, Home, Calculator, Butget, AddProduct, SalesReport, StockReport, Statistics, OrderDetail, Category, Distributor }
