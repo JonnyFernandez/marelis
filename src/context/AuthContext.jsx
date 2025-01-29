@@ -11,7 +11,7 @@ const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [errors, setErrors] = useState([]);
     const [Loading, setLoading] = useState(true);
-    console.log(user);
+
 
 
 

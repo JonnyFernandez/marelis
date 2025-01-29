@@ -75,3 +75,8 @@ export const api_stock_report = async () => await axios.get(`/stock-report`);
 
 // ---------------------------- stadistica ---------------------------------
 export const api_statistic = async (date1, date2) => await axios.get(`/sales-report?startDate=${date1}&endDate=${date2}`);
+
+
+// ------------------------------masive update-------------------------------------
+export const api_category_update_cost = async (id, data) => await axios.post(`/update-cost-category/${id}`, data);
+export const api_distributor_update_cost = async (id, data) => await axios.post(`/update-cost-distributor/${id}`, data); 
