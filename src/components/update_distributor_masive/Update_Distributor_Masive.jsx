@@ -1,203 +1,95 @@
-import React, { useState, useEffect } from 'react';
-import f from './DistributorForm.module.css';
-import {
-    api_post_distributor,
-    api_get_all_distributors,
-    api_update_distributor_numbers,
-    api_toggle_distributor_status,
-    api_delete_distributor,
-} from '../../api/product';
-import Modal from '../modal/Modal';
-// import UpdateProdByCategory from '../updateProdByCategory/UpdateProdByCategory';
-import UpdateProdByDistributor from '../updateProdByDistributor/UpdateProdByDistributor';
+import React, { useState } from 'react';
+import m from './Update_Distributor_Masive.module.css';
+import { useProd } from '../../context/ProdContext';
 
 
-const DistributorForm = () => {
-    const [inputs, setInputs] = useState({
-        name: "",
-        address: "",
-        phoneNumbers: [],
-    });
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [distributors, setDistributors] = useState([]);
-    const [editingDistributorId, setEditingDistributorId] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
+const Update_Distributor_Masive = ({ toggleOpen }) => {
+    const { distributors, updateCostMasiveDistributor } = useProd()
 
-    const toggleOpen = () => {
-        setIsOpen((prev) => !prev);
-    };
 
-    // Cargar distribuidores al montar el componente
-    useEffect(() => {
-        fetchDistributors();
-    }, []);
+    const [formData, setFormData] = useState({ distributorId: 0, percentage: "" });
 
-    const fetchDistributors = async () => {
-        const data = await api_get_all_distributors();
-        setDistributors(data.data);
-    };
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setInputs({
-            ...inputs,
-            [name]: value,
-        });
-    };
 
-    const handlePhoneNumberChange = (event) => {
-        setPhoneNumber(event.target.value);
-    };
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
 
-    const addPhoneNumber = () => {
-        if (phoneNumber.trim() !== "") {
-            setInputs((prev) => ({
-                ...prev,
-                phoneNumbers: [...prev.phoneNumbers, phoneNumber.trim()],
-            }));
-            setPhoneNumber("");
-        }
-    };
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        if (!inputs.name || !inputs.address || inputs.phoneNumbers.length === 0) {
-            alert("Por favor, completa todos los campos.");
+        if (name === "percentage" && !/^(-?\d+)?$/.test(value)) {
             return;
         }
 
-        if (editingDistributorId) {
-            // Actualizar distribuidor
-            await api_update_distributor_numbers(editingDistributorId, phoneNumber);
-            alert("Distribuidor actualizado correctamente.");
-            setEditingDistributorId(null);
-        } else {
-            // Crear nuevo distribuidor
-            await api_post_distributor(inputs);
-            alert("Distribuidor creado correctamente.");
+        setFormData((prevData) => ({ ...prevData, [name]: name === "percentage" ? value : value }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const { distributorId, percentage } = formData;
+
+        if (!distributorId || percentage === "" || isNaN(Number(percentage))) {
+            Swal.fire({
+                icon: "warning",
+                title: "Formulario incompleto",
+                text: "Por favor, selecciona un Distribuidor y agrega un porcentaje válido.",
+            });
+            return;
         }
 
-        fetchDistributors();
-        setInputs({ name: "", address: "", phoneNumbers: [] });
+        await updateCostMasiveDistributor(distributorId, { costUpdate: Number(percentage) });
+        alert('Actualizacion completa')
+        setFormData({ distributorId: 0, percentage: "" })
+        toggleOpen()
+
     };
 
-    const handleEdit = (distributor) => {
-        setEditingDistributorId(distributor.id);
-        setInputs({
-            name: distributor.name,
-            address: distributor.address,
-            phoneNumbers: distributor.phoneNumbers,
-        });
+    const renderCategoryOptions = () => {
+        return distributors.map((distributor) => (
+            <option key={distributor.id} value={distributor.id}>
+                {distributor.name}
+            </option>
+        ));
     };
 
-    const handleDelete = async (id) => {
-        await api_delete_distributor(id);
-        alert("Distribuidor eliminado correctamente.");
-        fetchDistributors();
-    };
-
-    const toggleStatus = async (id) => {
-        const message = await api_toggle_distributor_status(id);
-        alert(message);
-        fetchDistributors();
-    };
 
 
 
     return (
-        <div className={f.distributor}>
-            <h2>{editingDistributorId ? "Editar Distribuidor" : "Ingresar Distribuidor"}</h2>
-            <button onClick={toggleOpen}>Masivo Costo</button>
-            <div className={f.distributorContainer}>
-                <form
-                    className={`${f.inputsContainerDistributor} ${f.responsiveForm}`}
-                    onSubmit={handleSubmit}
+        <div className={m.formContainer}>
+            <h2 className={m.formTitle}>Actualizar Costo Por Distribuidor</h2>
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="distributorId" className={m.label}>
+                    Distribuidor:
+                </label>
+                <select
+                    id="distributorId"
+                    name="distributorId"
+                    onChange={handleInputChange}
+                    value={formData.distributorId}
+                    className={m.select}
                 >
-                    <div className={f.row}>
-                        <div className={f.columnDistributor}>
-                            <label htmlFor="name" className={f.label}>
-                                Nombre del Distribuidor
-                            </label>
-                            <input
-                                type="text"
-                                name="name"
-                                id="name"
-                                placeholder="Nombre del distribuidor"
-                                value={inputs.name}
-                                onChange={handleChange}
-                            />
+                    <option value="">Selecciona un Distribuidor</option>
+                    {renderCategoryOptions()}
+                </select>
 
-                            <label htmlFor="address" className={f.label}>
-                                Dirección
-                            </label>
-                            <textarea
-                                name="address"
-                                id="address"
-                                placeholder="Dirección"
-                                rows="2"
-                                value={inputs.address}
-                                onChange={handleChange}
-                            ></textarea>
+                <label htmlFor="percentage" className={m.label}>
+                    Porcentaje de actualización:
+                </label>
+                <input
+                    id="percentage"
+                    type="text"
+                    name="percentage"
+                    placeholder="Ingresa un porcentaje (positivo o negativo)"
+                    onChange={handleInputChange}
+                    value={formData.percentage}
+                    className={m.input}
+                />
 
-                            <label htmlFor="phoneNumber" className={f.label}>
-                                Número de Teléfono
-                            </label>
-                            <div className={f.phoneInputContainer}>
-                                <input
-                                    type="text"
-                                    id="phoneNumber"
-                                    placeholder="Agregar número de teléfono"
-                                    value={phoneNumber}
-                                    onChange={handlePhoneNumberChange}
-                                />
-                                <button type="button" onClick={addPhoneNumber}>
-                                    Agregar
-                                </button>
-                            </div>
-
-                            <ul className={f.phoneNumbersList}>
-                                {inputs.phoneNumbers.map((number, index) => (
-                                    <li key={index} className={f.phoneNumberItem}>
-                                        {number}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                    <button type="submit">
-                        {editingDistributorId ? "Actualizar Distribuidor" : "Guardar Distribuidor"}
-                    </button>
-                </form>
-            </div>
-
-            <h2>Lista de Distribuidores</h2>
-            <div className={f.distributorsList}>
-                {distributors
-                    .slice() // Crear una copia del array para no mutar el original
-                    .sort((a, b) => b.isActive - a.isActive) // Ordenar por estado activo (activo primero)
-                    .map((distributor) => (
-                        <div
-                            key={distributor.id}
-                            className={`${f.distributorItem} ${!distributor.isActive ? f.paused : ""}`}
-                        >
-                            <h3>{distributor.name}</h3>
-                            <p>Dirección: {distributor.address}</p>
-                            <p>Teléfono/s: {distributor.phoneNumbers.join(", ")}</p>
-                            <p>Estado: {distributor.isActive ? "Activo" : "Inactivo"}</p>
-                            <button onClick={() => handleEdit(distributor)}>Editar</button>
-                            <button onClick={() => handleDelete(distributor.id)}>Eliminar</button>
-                            <button onClick={() => toggleStatus(distributor.id)}>
-                                {distributor.isActive ? "Pausar" : "Activar"}
-                            </button>
-                        </div>
-                    ))}
-            </div>
-            <Modal isOpen={isOpen} toggleOpen={toggleOpen}>
-                <UpdateProdByDistributor toggleOpen={toggleOpen} />
-            </Modal>
-
+                <button type="submit" className={m.button}>
+                    Actualizar
+                </button>
+            </form>
         </div>
     );
 };
 
-export default DistributorForm;
+export default Update_Distributor_Masive;

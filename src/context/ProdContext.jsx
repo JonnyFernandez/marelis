@@ -1,7 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 
 // import { registerRequest, loginRequest, verifyTokenRequest, logoutRequest, toggleStatusRequest, deleteUserRequest } from "../api/auth";
-import { postProdrRequest, prodDetailsRequest, prodDeleteRequest, updateProdRequest, prodEditRequest, prodFeaturedsRequest, prodUpdateStockRequest, ProdRequest, api_delete_distributor, api_toggle_distributor_status, api_update_distributor_numbers, api_get_all_distributors, api_post_distributor, api_create_category, api_get_all_categories, api_delete_category, api_create_order, api_get_order, api_order_by_id, api_order_cancel, api_order_delete, api_stock_report, api_statistic, api_category_update_cost } from "../api/product";
+import { postProdrRequest, prodDetailsRequest, prodDeleteRequest, updateProdRequest, prodEditRequest, prodFeaturedsRequest, prodUpdateStockRequest, ProdRequest, api_delete_distributor, api_toggle_distributor_status, api_update_distributor_numbers, api_get_all_distributors, api_post_distributor, api_create_category, api_get_all_categories, api_delete_category, api_create_order, api_get_order, api_order_by_id, api_order_cancel, api_order_delete, api_stock_report, api_statistic, api_category_update_cost, api_distributor_update_cost } from "../api/product";
 
 
 
@@ -16,7 +16,7 @@ const ProdProvider = ({ children }) => {
     const [statistics, setStatistic] = useState(null);
     const [orderDetail, setOrderDetail] = useState({});
     const [errors, setErrors] = useState([]);
-    console.log(errors);
+    // console.log(errors);
 
 
     const allProduct = async () => {
@@ -239,6 +239,19 @@ const ProdProvider = ({ children }) => {
         }
     }
 
+    const updateCostMasiveDistributor = async (id, data) => {
+        try {
+            await api_distributor_update_cost(id, data);
+
+        } catch (error) {
+            if (Array.isArray(error.response?.data)) {
+                setErrors(error.response.data);
+            } else {
+                setErrors([error.response?.data?.message || "Unexpected error occurred"]);
+            }
+        }
+    }
+
     useEffect(() => {
         if (errors.length > 0) {
             const timer = setTimeout(() => {
@@ -251,7 +264,7 @@ const ProdProvider = ({ children }) => {
 
 
     return (
-        <ProdContext.Provider value={{ allProduct, prod, createProd, prodById, createOrder, errors, getOrders, orders, getOrdersById, orderDetail, cancelOrder, deleteOrder, getStockReport, stockReport, getStatistic, statistics, getCategory, categories, createCategory, deleteCategory, updateCostMasiveCategory, add_distributor, get_distributor, add_distributor_number, toggle_distributor_status, delete_distributor, distributors }}>
+        <ProdContext.Provider value={{ allProduct, prod, createProd, prodById, createOrder, errors, getOrders, orders, getOrdersById, orderDetail, cancelOrder, deleteOrder, getStockReport, stockReport, getStatistic, statistics, getCategory, categories, createCategory, deleteCategory, updateCostMasiveCategory, add_distributor, get_distributor, add_distributor_number, toggle_distributor_status, delete_distributor, distributors, updateCostMasiveDistributor }}>
             {children}
         </ProdContext.Provider>
     );

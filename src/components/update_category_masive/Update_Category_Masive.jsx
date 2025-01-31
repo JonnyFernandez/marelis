@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import m from './Update_Category_Masive.module.css';
 import { useProd } from '../../context/ProdContext';
 

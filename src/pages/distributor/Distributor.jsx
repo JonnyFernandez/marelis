@@ -3,6 +3,7 @@ import f from './Distributor.module.css';
 
 import { Modal } from '../../components'
 import { useProd } from '../../context/ProdContext';
+import { Update_Distributor_Masive } from '../../components';
 
 
 const Distributor = () => {
@@ -180,7 +181,7 @@ const Distributor = () => {
                         >
                             <h3>{distributor.name}</h3>
                             <p>Dirección: {distributor.address}</p>
-                            <p>Teléfono/s: {distributor.phoneNumbers.join(", ")}</p>
+                            <p>Teléfono/s: <b>{distributor.phoneNumbers.join(", ")}</b> </p>
                             <p>Estado: {distributor.isActive ? "Activo" : "Inactivo"}</p>
                             <button onClick={() => handleEdit(distributor)}>Editar</button>
                             <button onClick={() => handleDelete(distributor.id)}>Eliminar</button>
@@ -190,9 +191,9 @@ const Distributor = () => {
                         </div>
                     ))}
             </div>
-            {/* <Modal isOpen={isOpen} toggleOpen={toggleOpen}>
-                <UpdateProdByDistributor toggleOpen={toggleOpen} />
-            </Modal> */}
+            <Modal isOpen={isOpen} toggleOpen={toggleOpen}>
+                <Update_Distributor_Masive toggleOpen={toggleOpen} />
+            </Modal>
 
         </div>
     );
