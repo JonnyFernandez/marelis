@@ -13,7 +13,7 @@ const NavBar = () => {
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
-                <NavLink className="navbar-brand" to='/'> <b>Port Control</b> </NavLink>
+                <NavLink className="navbar-brand" to='/home'> <b>Port Control</b> </NavLink>
                 <button
                     className="navbar-toggler"
                     type="button"
@@ -29,7 +29,7 @@ const NavBar = () => {
                     <ul className="navbar-nav">
 
                         <li className="nav-item">
-                            <NavLink className="nav-link active" aria-current="page" to='/'>Inicio</NavLink>
+                            <NavLink className="nav-link active" aria-current="page" to='/home'>Inicio</NavLink>
                         </li>
                         {user.type === 'admin' ? <li className="nav-item dropdown">
                             <a
@@ -59,9 +59,9 @@ const NavBar = () => {
                                 <li>
                                     <NavLink className="dropdown-item" to={'/statistics-report'}>Estadisticas</NavLink>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <NavLink className="dropdown-item" to={'/statistics-report'}>Catalogo</NavLink>
-                                </li>
+                                </li> */}
 
                             </ul>
                         </li> : ''}
@@ -91,7 +91,7 @@ const NavBar = () => {
                                     <NavLink className="dropdown-item" to={'#'}>Actualizar Stock</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink className="dropdown-item" to={'#'}>Catalogo</NavLink>
+                                    <NavLink className="dropdown-item" to={'/catalog'}>Catalogo</NavLink>
                                 </li>
 
 

@@ -1,0 +1,168 @@
+.prodManagement {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+}
+
+.title {
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #007bff;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Barra de Filtros */
+.filterContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    /* background-color: #fff; */
+    background-color: #007bff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.searchContainer{
+    width: 200px;
+    height: 100%;
+    /* background-color: red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.searchContainer input{
+    margin-top: 10px;
+    cursor:none;
+}
+
+.filterTitle {
+    font-size: 1rem;
+    color: #333;
+    margin: 0;
+}
+
+.filterSelect {
+    padding: 8px;
+    font-size: 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+    cursor: pointer;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.filterSelect:hover {
+    border-color: #007bff;
+}
+
+/* Tarjetas */
+.cardContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.cardImage {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+}
+
+.cardContent {
+    padding: 15px;
+}
+
+.cardTitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+}
+
+.cardDescription {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 10px 0;
+}
+
+.cardStock {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 10px 0;
+}
+
+.lowStock {
+    font-size: 0.9rem;
+    color: rgb(69, 64, 64);
+    margin: 10px 0;
+    background-color: rgba(255, 255, 0, 0.8);
+}
+
+.notStock {
+    font-size: 0.9rem;
+    color: white;
+    margin: 10px 0;
+    background-color: #ff4d4d;
+}
+
+.cardPrice {
+    font-size: 1rem;
+    color: #27ae60;
+    font-weight: bold;
+}
+
+
+.addProd {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.addProd:hover {
+    background-color: #218838;
+}
+
+@media (max-width: 768px) {
+    .filterContainer {
+        width: 100%;
+        overflow-y: scroll;
+    }
+    .cardContainer {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+        gap: 20px;
+        padding: 10px;
+    }
+    .addProd{
+        padding: 0rem 1.5rem;
+        font-size: .8rem;
+    }
+}

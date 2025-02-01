@@ -14,7 +14,7 @@ const Login = () => {
 
 
     useEffect(() => {
-        if (isAuthenticated) navigate('/')
+        if (isAuthenticated) navigate('/home')
     }, [isAuthenticated])
 
 
