@@ -4,14 +4,20 @@ import { NavLink } from 'react-router-dom';
 import { useProd } from '../../context/ProdContext';
 
 const Catalog = () => {
-    const { allProduct, prod, errors } = useProd();
+    const { allProduct, prod, categories, distributors, getCategory, get_distributor, filter_product } = useProd();
+    // console.log(prod);
+
+    const fetchData = async () => {
+        await allProduct();
+        await getCategory();
+        await get_distributor();
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            await allProduct();
-        };
         fetchData();
     }, []);
+
+
 
     const [searchQuery, setSearchQuery] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
@@ -19,60 +25,61 @@ const Catalog = () => {
     const [distributorFilter, setDistributorFilter] = useState('');
     const [stockFilter, setStockFilter] = useState('');
 
+    useEffect(() => {
+        if (categoryFilter) filter_product('category', categoryFilter);
+        if (priceFilter) filter_product(priceFilter === 'mas' ? 'price_high' : 'price_low');
+        if (distributorFilter) filter_product('distributor', distributorFilter);
+        if (stockFilter) filter_product(stockFilter === 'min' ? 'low_stock' : 'out_of_stock');
+    }, [categoryFilter, priceFilter, distributorFilter, stockFilter]);
+
     const getStockClass = (stock, minStock) => {
         if (stock === 0) return p.notStock;
         if (stock <= minStock) return p.lowStock;
         return p.cardStock;
     };
 
-    const filteredProducts = prod
-        ?.filter(({ name, code }) =>
-            [name, code].some(field => field?.toLowerCase().includes(searchQuery.toLowerCase()))
-        )
-        .filter(({ category }) => (categoryFilter ? category === categoryFilter : true))
-        .filter(({ distributor }) => (distributorFilter ? distributor === distributorFilter : true))
-        .filter(({ stock, minStock }) => {
-            if (stockFilter === 'min') return stock <= minStock;
-            if (stockFilter === 'cero') return stock === 0;
-            return true;
-        })
-        .sort((a, b) => {
-            if (priceFilter === 'mas') return b.price - a.price;
-            if (priceFilter === 'min') return a.price - b.price;
-            return 0;
-        });
+    const filteredProducts = prod?.filter(({ name, code }) =>
+        [name, code].some(field => field?.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
 
+    const refresh = () => {
+        fetchData();
+    }
     return (
         <div className={p.prodManagement}>
-            <h1 className={p.title}>Product Management</h1>
+            <div onClick={refresh} className={p.titleProductManagement}>Product Management</div>
             <div className={p.filterContainer}>
+                {/* Filtro por categoría */}
                 <select className={p.filterSelect} onChange={(e) => setCategoryFilter(e.target.value)}>
                     <option value="">Category</option>
-                    <option value="pileta">Pileta</option>
-                    <option value="bazar">Bazar</option>
-                    <option value="jugueteria">Jugueteria</option>
-                    <option value="quimica">Quimica</option>
+                    {categories.map((item) => (
+                        <option key={item.id} value={item.name}>{item.name}</option>
+                    ))}
                 </select>
 
+                {/* Filtro por precio */}
                 <select className={p.filterSelect} onChange={(e) => setPriceFilter(e.target.value)}>
                     <option value="">Price</option>
                     <option value="mas">Mayor</option>
                     <option value="min">Menor</option>
                 </select>
 
+                {/* Filtro por distribuidor */}
                 <select className={p.filterSelect} onChange={(e) => setDistributorFilter(e.target.value)}>
                     <option value="">Suplidor</option>
-                    <option value="quillay">Quillay</option>
-                    <option value="tecnoclor">Tecnoclor</option>
-                    <option value="ana">Ana</option>
+                    {distributors.map((item) => (
+                        <option key={item.id} value={item.name}>{item.name}</option>
+                    ))}
                 </select>
 
+                {/* Filtro por stock */}
                 <select className={p.filterSelect} onChange={(e) => setStockFilter(e.target.value)}>
                     <option value="">Stock</option>
                     <option value="min">Mínimo</option>
                     <option value="cero">Sin Stock</option>
                 </select>
 
+                {/* Barra de búsqueda */}
                 <div className={p.searchContainer}>
                     <input
                         type="text"
@@ -84,6 +91,7 @@ const Catalog = () => {
                 </div>
             </div>
 
+            {/* Renderizado de productos filtrados */}
             <div className={p.cardContainer}>
                 {filteredProducts?.map(({ id, image, name, description, stock, minStock, price, code }) => (
                     <div key={id} className={p.card}>

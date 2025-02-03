@@ -2,7 +2,7 @@ import axios from './axios';
 
 // ----------------product---------------------------
 
-export const postProdrRequest = async (data) => {
+export const postProdRequest = async (data) => {
     const defaultImage = 'https://e0.pxfuel.com/wallpapers/806/472/desktop-wallpaper-blank-white-bright-white.jpg'
 
     try {

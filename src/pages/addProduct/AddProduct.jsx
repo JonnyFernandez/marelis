@@ -1,19 +1,21 @@
-import f from './AddProduct.module.css'
 import React, { useState, useEffect } from 'react';
-
+import f from './AddProduct.module.css'
 import axios from 'axios';
-// import { api_post_order, api_get_all_categories, api_get_all_distributors } from '../../api/product';
-
 import { codeGenerator } from '../../utils/genetareCode';
+import { useProd } from '../../context/ProdContext'
+
 
 
 
 const AddProduct = () => {
+
+    const { getCategory, categories, get_distributor, distributors, create_Prod, errors: api_error } = useProd()
+
     const [inputs, setInputs] = useState({
         image: '',
         name: '',
         description: '',
-        code: '' || codeGenerator(),
+        code: '',
         cost: '',
         stock: '',
         minStock: '',
@@ -22,7 +24,13 @@ const AddProduct = () => {
         distributor: [],
         category: []
     });
-    // console.log(inputs);
+    console.log(inputs.category);
+    console.log(inputs.distributor);
+
+    useEffect(() => {
+        setInputs(prev => ({ ...prev, code: codeGenerator() }));
+    }, []);
+
 
     const data = {
         ...inputs,
@@ -32,30 +40,26 @@ const AddProduct = () => {
         minStock: Number(inputs.minStock),
         iva: Number(inputs.iva),
         profit: Number(inputs.profit),
-        distributor: inputs.distributor.length ? inputs.distributor : [1],
-        category: inputs.category.length ? inputs.category : [1]
+        distributor: inputs.distributor?.length ? inputs.distributor : [],
+        category: inputs.category?.length ? inputs.category : []
     }
     // console.log(data);
 
     const [errors, setErrors] = useState({});
-    const [categories, setCategories] = useState([]);
-    const [distributors, setDistributors] = useState([]);
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const [categoryRes, distributorRes] = await Promise.all([
-    //                 api_get_all_categories(), 
-    //                 api_get_all_distributors() 
-    //             ]);
-    //             setCategories(categoryRes.data);
-    //             setDistributors(distributorRes.data);
-    //         } catch (error) {
-    //             console.error('Error al cargar categorías o distribuidores:', error);
-    //         }
-    //     };
-    //     fetchData();
-    // }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                await get_distributor()
+                await getCategory()
+
+            } catch (error) {
+                console.error('Error al cargar categorías o distribuidores:', error);
+            }
+        };
+        fetchData();
+    }, []);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -65,13 +69,13 @@ const AddProduct = () => {
     const handleSelect = (e, type) => {
         const { value } = e.target;
         if (type === 'distributor') {
-            if (inputs.distributor.includes(value)) {
+            if (inputs.distributor?.includes(value)) {
                 alert(`Distribuidor ya agregado!`);
             } else {
                 setInputs({ ...inputs, distributor: [...inputs.distributor, value] });
             }
         } else if (type === 'category') {
-            if (inputs.category.includes(value)) {
+            if (inputs.category?.includes(value)) {
                 alert(`Categoría ya agregada!`);
             } else {
                 setInputs({ ...inputs, category: [...inputs.category, value] });
@@ -119,27 +123,31 @@ const AddProduct = () => {
             setErrors(validationErrors);
             return;
         }
-        // api_post_order(data);
-        // console.log("Formulario enviado", inputs);
+        create_Prod(data);
+
         alert('Producto guardado con éxito.');
         setInputs({
             image: '',
             name: '',
             description: '',
-            code: '',
+            code: codeGenerator(), // 🔥 Asegura que se genere un nuevo código
             cost: '',
             stock: '',
             minStock: '',
-            iva: '',
-            profit: '',
+            // iva: '',
+            // profit: '',
             distributor: [],
             category: []
-        })
+        });
+
     };
 
     return (
         <div className={f.addProd}>
-            <h2>Ingresar Producto</h2>
+            <h2 className={f.titleAddProd} >Ingresar Producto</h2>
+            {
+                api_error.length ? api_error.map((item, index) => <p key={index} className={f.errorCreatedProd}>{item}</p>) : ''
+            }
             <div className={f.infoContainer}>
                 <div className={f.divImage}>
                     {inputs.image ? (
@@ -176,9 +184,15 @@ const AddProduct = () => {
                                 onChange={handleChange}
                             ></textarea>
                             {errors.description && <p className={f.error}>{errors.description}</p>}
-                        </div>
-
-                        <div className={f.column}>
+                            <label htmlFor="code" className={f.label}>Código</label>
+                            <input
+                                type="text"
+                                name="code"
+                                id="code"
+                                placeholder="Código"
+                                value={inputs.code}
+                                onChange={handleChange}
+                            />
                             <label htmlFor="cost" className={f.label}>Costo</label>
                             <input
                                 type="number"
@@ -191,6 +205,10 @@ const AddProduct = () => {
                                 step="0.01"
                             />
                             {errors.cost && <p className={f.error}>{errors.cost}</p>}
+                        </div>
+
+                        <div className={f.column}>
+
 
                             <label htmlFor="iva">IVA:</label>
                             <input
@@ -243,7 +261,7 @@ const AddProduct = () => {
                             <label htmlFor="category" className={f.label}>Categoría</label>
                             <select name="category" id="category" onChange={(e) => handleSelect(e, 'category')}>
                                 <option value="">Seleccionar Categoría</option>
-                                {categories.map(category => (
+                                {categories?.map(category => (
                                     <option key={category.id} value={category.id}>{category.name}</option>
                                 ))}
                             </select>
@@ -251,52 +269,50 @@ const AddProduct = () => {
                             <label htmlFor="distributor" className={f.label}>Distribuidor</label>
                             <select name="distributor" id="distributor" onChange={(e) => handleSelect(e, 'distributor')}>
                                 <option value="">Seleccionar Distribuidor</option>
-                                {distributors.map(distributor => (
+                                {distributors?.map(distributor => (
                                     <option key={distributor.id} value={distributor.id}>{distributor.name}</option>
                                 ))}
                             </select>
 
                             <div className={f.itemsCategoryAndDistribuitor}>
-                                <div className={f.itemsCategory}>
-                                    {inputs.category.map((id, index) => (
-                                        <div key={index}>
-                                            <p className={f.textD}>
-                                                {categories.find(cat => cat.id === id)?.name || id}{' '}
-                                                <button
-                                                    className={f.botonX}
-                                                    onClick={() => handleDelete('category', id)}
-                                                >
-                                                    x
-                                                </button>
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className={f.itemDistribuitor}>
-                                    {inputs.distributor.map((id, index) => (
-                                        <div key={index}>
-                                            <p className={f.textD}>
-                                                {distributors.find(dist => dist.id === id)?.name || id}{' '}
-                                                <button
-                                                    className={f.botonX}
-                                                    onClick={() => handleDelete('distributor', id)}
-                                                >
-                                                    x
-                                                </button>
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
+                                {/* Categorías seleccionadas */}
+                                {inputs.category?.length > 0 && (
+                                    <div className={f.itemsCategory}>
+
+                                        <div className={f.div1}>Categorías seleccionadas:</div>
+
+                                        {inputs.category.map((id) => {
+                                            const category = categories.find(cat => cat.id === Number(id));
+                                            return (
+                                                <div key={id} className={f.selectedItem}>
+                                                    <span>{category ? category.name : 'Desconocido'}</span>
+                                                    <button className={f.botonX} onClick={() => handleDelete('category', id)}>x</button>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+
+                                {/* Distribuidores seleccionados */}
+                                {inputs.distributor?.length > 0 && (
+                                    <div className={f.itemDistribuitor}>
+
+                                        <div className={f.div1}>Distribuidores seleccionados:</div>
+
+                                        {inputs.distributor.map((id) => {
+                                            const distributor = distributors.find(dist => dist.id === Number(id));
+                                            return (
+                                                <div key={id} className={f.selectedItem}>
+                                                    <span>{distributor ? distributor.name : 'Desconocido'}</span>
+                                                    <button className={f.botonX} onClick={() => handleDelete('distributor', id)}>x</button>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
                             </div>
-                            <label htmlFor="code" className={f.label}>Código</label>
-                            <input
-                                type="text"
-                                name="code"
-                                id="code"
-                                placeholder="Código"
-                                value={inputs.code}
-                                onChange={handleChange}
-                            />
+
+
                         </div>
                     </div>
                     <button type="submit">Guardar Producto</button>

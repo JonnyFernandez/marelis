@@ -92,6 +92,13 @@ button {
     font-size: 16px;
 }
 
+.titleAddProd{
+    background-color: #007bff;
+    color: white;
+    font-weight: bolder;
+    
+}
+
 button:hover {
     background-color: #0056b3;
 }
@@ -101,7 +108,15 @@ button:hover {
     font-size: 12px;
     margin-top: -5px;
 }
-
+.errorCreatedProd{
+    color: white;
+    padding: 10px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+    font-weight: bolder;
+}
 .itemInputs {
     display: flex;
     align-items: center;
@@ -117,18 +132,51 @@ button:hover {
 .itemsCategory{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-
+   
 }
+.div1{
+/* background-color: red; */
+width: 30%;
+}
+
 .itemDistribuitor{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+   
 
 }
 .botonX{
     background-color: rgba(255, 0, 0, 0.712);
 }
+.selectedItem {
+    display: flex;
+    align-items: center;
+    background: #f3f3f3;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+    
+}
+
+.selectedItem span {
+    flex: 1;
+    font-weight: bold;
+}
+
+.botonX {
+    background: red;
+    color: white;
+    border: none;
+    padding: 2px 8px;
+    cursor: pointer;
+    margin-left: 10px;
+    border-radius: 3px;
+}
+
+.botonX:hover {
+    background: darkred;
+}
+
 /* Responsiveness */
 @media (max-width: 768px) {
     .infoContainer {

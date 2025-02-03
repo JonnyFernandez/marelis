@@ -1,14 +1,17 @@
 import { createContext, useState, useContext, useEffect } from "react";
 
 // import { registerRequest, loginRequest, verifyTokenRequest, logoutRequest, toggleStatusRequest, deleteUserRequest } from "../api/auth";
-import { postProdrRequest, prodDetailsRequest, prodDeleteRequest, updateProdRequest, prodEditRequest, prodFeaturedsRequest, prodUpdateStockRequest, ProdRequest, api_delete_distributor, api_toggle_distributor_status, api_update_distributor_numbers, api_get_all_distributors, api_post_distributor, api_create_category, api_get_all_categories, api_delete_category, api_create_order, api_get_order, api_order_by_id, api_order_cancel, api_order_delete, api_stock_report, api_statistic, api_category_update_cost, api_distributor_update_cost } from "../api/product";
+import { postProdRequest, prodDetailsRequest, prodDeleteRequest, updateProdRequest, prodEditRequest, prodFeaturedsRequest, prodUpdateStockRequest, ProdRequest, api_delete_distributor, api_toggle_distributor_status, api_update_distributor_numbers, api_get_all_distributors, api_post_distributor, api_create_category, api_get_all_categories, api_delete_category, api_create_order, api_get_order, api_order_by_id, api_order_cancel, api_order_delete, api_stock_report, api_statistic, api_category_update_cost, api_distributor_update_cost } from "../api/product";
 
 
 
 export const ProdContext = createContext({}); // Cambiado a ProdContext
 
 const ProdProvider = ({ children }) => {
+
+
     const [prod, setProd] = useState(null);
+    const [backup, setBackup] = useState(null);
     const [orders, setOrders] = useState([]);
     const [stockReport, setStockReport] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -16,7 +19,7 @@ const ProdProvider = ({ children }) => {
     const [statistics, setStatistic] = useState(null);
     const [orderDetail, setOrderDetail] = useState({});
     const [errors, setErrors] = useState([]);
-    // console.log(errors);
+    console.log(errors);
 
 
     const allProduct = async () => {
@@ -24,14 +27,55 @@ const ProdProvider = ({ children }) => {
         try {
             const res = await ProdRequest();
             setProd(res.data);
+            setBackup(res.data);
         } catch (error) {
             setErrors(error.response?.data?.message || ["Unexpected error occurred"]);
         }
     };
 
-    const createProd = async (values) => {
+    const filter_product = (type, info) => {
+        if (!backup) return;
+
+        let filtered = [...backup];
+
+        switch (type) {
+            case "category":
+                filtered = backup.filter(prod =>
+                    prod.Categories.some(cat => cat.name === info)
+                );
+                break;
+            case "distributor":
+                filtered = backup.filter(prod =>
+                    prod.Distributors.some(dist => dist.name === info)
+                );
+                break;
+            case "low_stock":
+                filtered = backup.filter(prod => prod.stock > 0 && prod.stock < prod.minStock
+                );
+                break;
+            case "out_of_stock":
+                filtered = backup.filter(prod => prod.stock === 0);
+                break;
+            case "price_high":
+                filtered.sort((a, b) => b.price - a.price);
+                break;
+            case "price_low":
+                filtered.sort((a, b) => a.price - b.price);
+                break;
+            case 'all':
+                filtered = backup;
+            default:
+                filtered = backup;
+                break;
+        }
+
+        setProd(filtered);
+    };
+
+
+    const create_Prod = async (values) => {
         try {
-            await postProdrRequest(values);
+            await postProdRequest(values);
         } catch (error) {
             if (Array.isArray(error.response.data)) {
                 return setErrors(error.response.data);
@@ -264,7 +308,37 @@ const ProdProvider = ({ children }) => {
 
 
     return (
-        <ProdContext.Provider value={{ allProduct, prod, createProd, prodById, createOrder, errors, getOrders, orders, getOrdersById, orderDetail, cancelOrder, deleteOrder, getStockReport, stockReport, getStatistic, statistics, getCategory, categories, createCategory, deleteCategory, updateCostMasiveCategory, add_distributor, get_distributor, add_distributor_number, toggle_distributor_status, delete_distributor, distributors, updateCostMasiveDistributor }}>
+        <ProdContext.Provider value={{
+            allProduct,
+            prod,
+            create_Prod,
+            prodById,
+            createOrder,
+            errors,
+            getOrders,
+            orders,
+            getOrdersById,
+            orderDetail,
+            cancelOrder,
+            deleteOrder,
+            getStockReport,
+            stockReport,
+            getStatistic,
+            statistics,
+            getCategory,
+            categories,
+            createCategory,
+            deleteCategory,
+            updateCostMasiveCategory,
+            add_distributor,
+            get_distributor,
+            add_distributor_number,
+            toggle_distributor_status,
+            delete_distributor,
+            distributors,
+            updateCostMasiveDistributor,
+            filter_product
+        }}>
             {children}
         </ProdContext.Provider>
     );
