@@ -19,9 +19,9 @@ const ProdProvider = ({ children }) => {
     const [statistics, setStatistic] = useState(null);
     const [orderDetail, setOrderDetail] = useState({});
     const [errors, setErrors] = useState([]);
-    console.log(errors);
+    // console.log(errors);
 
-
+    //   -------------------- Product-----------------------------------
     const allProduct = async () => {
 
         try {
@@ -83,6 +83,20 @@ const ProdProvider = ({ children }) => {
             setErrors([error.response.data.message]);
         }
     };
+
+
+    const update_stock = async (id, data) => {
+        try {
+            await prodUpdateStockRequest(id, data);
+        } catch (error) {
+            if (Array.isArray(error.response.data)) {
+                return setErrors(error.response.data);
+            }
+            setErrors([error.response.data.message]);
+        }
+    };
+    //   ---------------------------------------------------------------
+
     const createOrder = async (values) => {
         try {
             await api_create_order(values);
@@ -337,7 +351,8 @@ const ProdProvider = ({ children }) => {
             delete_distributor,
             distributors,
             updateCostMasiveDistributor,
-            filter_product
+            filter_product,
+            update_stock
         }}>
             {children}
         </ProdContext.Provider>

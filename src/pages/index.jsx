@@ -11,5 +11,6 @@ import AddProduct from "./addProduct/AddProduct";
 import Category from "./category/Category";
 import Distributor from "./distributor/Distributor";
 import Catalog from "./catalog/Catalog";
+import UpdateStock from "./updateStock/UpdateStock";
 
-export { Register, Login, Home, Calculator, Butget, AddProduct, SalesReport, StockReport, Statistics, OrderDetail, Category, Distributor, Catalog }
+export { Register, Login, Home, Calculator, Butget, AddProduct, SalesReport, StockReport, Statistics, OrderDetail, Category, Distributor, Catalog, UpdateStock }

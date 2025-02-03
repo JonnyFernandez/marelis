@@ -88,7 +88,7 @@ const NavBar = () => {
                                     <NavLink className="dropdown-item" to={'/distributor'}>Distribuidores</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink className="dropdown-item" to={'#'}>Actualizar Stock</NavLink>
+                                    <NavLink className="dropdown-item" to={'/update-stock'}>Actualizar Stock</NavLink>
                                 </li>
                                 <li>
                                     <NavLink className="dropdown-item" to={'/catalog'}>Catalogo</NavLink>

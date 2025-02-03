@@ -24,8 +24,8 @@ const AddProduct = () => {
         distributor: [],
         category: []
     });
-    console.log(inputs.category);
-    console.log(inputs.distributor);
+    // console.log(inputs.category);
+    // console.log(inputs.distributor);
 
     useEffect(() => {
         setInputs(prev => ({ ...prev, code: codeGenerator() }));
