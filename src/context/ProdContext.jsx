@@ -1,7 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 
-// import { registerRequest, loginRequest, verifyTokenRequest, logoutRequest, toggleStatusRequest, deleteUserRequest } from "../api/auth";
-import { postProdRequest, prodDetailsRequest, prodDeleteRequest, updateProdRequest, prodEditRequest, prodFeaturedsRequest, prodUpdateStockRequest, ProdRequest, api_delete_distributor, api_toggle_distributor_status, api_update_distributor_numbers, api_get_all_distributors, api_post_distributor, api_create_category, api_get_all_categories, api_delete_category, api_create_order, api_get_order, api_order_by_id, api_order_cancel, api_order_delete, api_stock_report, api_statistic, api_category_update_cost, api_distributor_update_cost } from "../api/product";
+
+import { postProdRequest, api_prod_details, prodUpdateStockRequest, ProdRequest, api_delete_distributor, api_toggle_distributor_status, api_update_distributor_numbers, api_get_all_distributors, api_post_distributor, api_create_category, api_get_all_categories, api_delete_category, api_create_order, api_get_order, api_order_by_id, api_order_cancel, api_order_delete, api_stock_report, api_statistic, api_category_update_cost, api_distributor_update_cost } from "../api/product";
 
 
 
@@ -11,6 +11,7 @@ const ProdProvider = ({ children }) => {
 
 
     const [prod, setProd] = useState(null);
+    const [prodDetail, setProdDetail] = useState(null);
     const [backup, setBackup] = useState(null);
     const [orders, setOrders] = useState([]);
     const [stockReport, setStockReport] = useState([]);
@@ -95,6 +96,20 @@ const ProdProvider = ({ children }) => {
             setErrors([error.response.data.message]);
         }
     };
+
+    const prodById = async (id) => {
+        try {
+            const res = await api_prod_details(id);
+
+            setProdDetail(res.data);
+
+        } catch (error) {
+            if (Array.isArray(error.response.data)) {
+                return setErrors(error.response.data);
+            }
+            setErrors([error.response.data.message]);
+        }
+    };
     //   ---------------------------------------------------------------
 
     const createOrder = async (values) => {
@@ -140,19 +155,7 @@ const ProdProvider = ({ children }) => {
         }
     };
 
-    const prodById = async (id) => {
-        try {
-            const res = await prodDetailsRequest(id);
 
-            setProd(res.data);
-
-        } catch (error) {
-            if (Array.isArray(error.response.data)) {
-                return setErrors(error.response.data);
-            }
-            setErrors([error.response.data.message]);
-        }
-    };
     const cancelOrder = async (id) => {
         await api_order_cancel(id)
     }
@@ -352,7 +355,8 @@ const ProdProvider = ({ children }) => {
             distributors,
             updateCostMasiveDistributor,
             filter_product,
-            update_stock
+            update_stock,
+            prodDetail
         }}>
             {children}
         </ProdContext.Provider>

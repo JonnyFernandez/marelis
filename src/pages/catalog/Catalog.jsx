@@ -95,7 +95,7 @@ const Catalog = () => {
             <div className={p.cardContainer}>
                 {filteredProducts?.map(({ id, image, name, description, stock, minStock, price, code }) => (
                     <div key={id} className={p.card}>
-                        <NavLink to={`/prod-detail/${id}`}>
+                        <NavLink to={`/detail/${id}`}>
                             <img src={image} alt={name} className={p.cardImage} />
                         </NavLink>
 

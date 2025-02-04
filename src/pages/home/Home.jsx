@@ -547,7 +547,7 @@ const Home = () => {
                     </div>
                 )}
                 <div className={x.divRight}>
-                    <span>
+                    <span className={x.finalMount1}>
                         Monto Total: $
                         {calculateSubTotal().toLocaleString("en-US", {
                             minimumFractionDigits: 2,

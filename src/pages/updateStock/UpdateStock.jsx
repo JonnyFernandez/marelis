@@ -2,10 +2,12 @@ import u from './UpdateStock.module.css';
 import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useProd } from '../../context/ProdContext';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const UpdateStock = () => {
+    const navigate = useNavigate()
 
     const { prod, allProduct, update_stock } = useProd()
     const [search, setSearch] = useState('');
@@ -25,13 +27,30 @@ const UpdateStock = () => {
 
     }
 
-    const handleSearch = () => {
+    const handleSearch = async () => {
 
         const product = prod?.find((p) => p.code.includes(search.trim()));
+
         if (product) {
             setInputs(product);
+
         } else {
-            alert("producto no encontrado")
+            const result = await Swal.fire({
+                title: 'Producto no encontrado',
+                text: 'Desea agregar el producto ahora',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Agregar',
+                cancelButtonText: 'Cancelar',
+            });
+
+            if (result.isConfirmed) {
+                navigate('/prod')
+            }
+
+
+
+
         }
     };
 

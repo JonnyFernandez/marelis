@@ -152,9 +152,16 @@
     flex-direction: column;
   }
 
+  .finalMount1{
+    font-weight: bold;
+    font-size:larger;
+    font-size:larger;
+    /* color: #28a745; */
+  }
   .finalMount{
     font-weight: bold;
     font-size:larger;
+    font-size:xx-large;
     color: #28a745;
   }
   
@@ -162,5 +169,7 @@
     font-weight: bold;
     font-size: larger;
     color: #007bff;
+    font-size:xx-large;
+
   }
   

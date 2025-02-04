@@ -14,7 +14,7 @@ export const postProdRequest = async (data) => {
     }
 };
 
-export const prodDetailsRequest = async (id) => {
+export const api_prod_details = async (id) => {
 
     try {
         const res = await axios.get(`/prod/${id}`);
@@ -26,7 +26,7 @@ export const prodDetailsRequest = async (id) => {
 
 
 };
-export const prodDeleteRequest = async (id) => {
+export const api_prod_delete = async (id) => {
 
     try {
         const res = await axios.delete(`/prod/${id}`);
@@ -38,11 +38,13 @@ export const prodDeleteRequest = async (id) => {
 
 
 };
-export const updateProdRequest = async (id) => await axios.put(`/status/${id}`)
+export const api_prod_detail_update = async (id, data) => await axios.put(`/prod/${id}`, data);
+
+export const update_prod_status = async (id) => await axios.put(`/status/${id}`)
 
 export const prodEditRequest = async (id, data) => await axios.put(`/prod/${id}`, data)
 
-export const prodFeaturedsRequest = async (id) => await axios.put(`/status-featured/${id}`)
+export const api_featured_prod = async (id) => await axios.put(`/status-featured/${id}`)
 
 export const prodUpdateStockRequest = async (id, data) => await axios.put(`/prod/${id}`, data);
 
