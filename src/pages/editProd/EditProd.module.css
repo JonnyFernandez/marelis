@@ -1,0 +1,164 @@
+/* ProdForm.module.css */
+
+.addProd {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.addProd h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.infoContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.divImage {
+    flex: 1 1 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed #ccc;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+}
+
+.divImage:hover {
+    border-color: #007bff;
+}
+
+.divImage img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.inputsContainer {
+    flex: 2 1 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.column {
+    flex: 1 1 calc(50% - 20px); /* Dos columnas iguales con espacio entre ellas */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.column input, 
+.column textarea, 
+.column select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.column input:focus, 
+.column textarea:focus, 
+.column select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+textarea {
+    resize: none;
+    min-height: 60px;
+}
+
+button {
+    padding: 12px 18px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: -5px;
+}
+
+.backLink {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    font-size: 14px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.backLink:hover {
+    background-color: #0056b3;
+}
+
+.backLink:focus {
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.8);
+}
+
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .infoContainer {
+        flex-direction: column;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .column {
+        flex: 1 1 100%; /* Columnas ocupan todo el ancho */
+    }
+
+    /* button {
+        width: 100%;
+    } */
+}

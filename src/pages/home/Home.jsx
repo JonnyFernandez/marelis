@@ -120,6 +120,8 @@ const Home = () => {
     // Handle barcode scan
     const handleBarcodeScan = (barcode) => {
         const product = products.find((prod) => prod.code === barcode);
+        if (product.isActive === false) return alert("Producto no disponible")
+
 
         if (!product) {
             alert("El código escaneado no corresponde a ningún producto.")
@@ -289,6 +291,7 @@ const Home = () => {
 
     const addToCart = (id) => {
         const product = filteredProducts.find((p) => p.id === id);
+        if (product.isActive === false) return alert("Producto no disponible")
 
         if (!product) return; // Verifica que el producto existe.
 
@@ -425,7 +428,7 @@ const Home = () => {
                                     <td>${product.price.toFixed(2)}</td>
                                     <td>
                                         <button
-                                            className={`${x.addButton} ${product.stock === 0 ? x.disabledButton : ""}`}
+                                            className={`${x.addButton} ${product.stock === 0 || product.isActive === false ? x.disabledButton : ""}`}
                                             onClick={() => addToCart(product.id)}
                                             disabled={product.stock === 0}
                                         >
